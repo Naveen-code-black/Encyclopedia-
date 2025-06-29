@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encyclopedia - Knowledge Base</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #222;
+            background: #f8f9fa;
+        }
+
+        /* Header */
+        .header {
+            background: #fff;
+            border-bottom: 1px solid #a2a9b1;
+            padding: 0.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #0645ad;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .logo:hover {
+            color: #0b0080;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border: 1px solid #a2a9b1;
+            border-radius: 2px;
+            padding: 0.5rem;
+            min-width: 300px;
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 0.9rem;
+        }
+
+        .search-btn {
+            background: #0645ad;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            margin-left: 0.5rem;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .search-btn:hover {
+            background: #0b0080;
+        }
+
+        /* Navigation */
+        .nav {
+            background: #fff;
+            border-bottom: 1px solid #a2a9b1;
+            padding: 0.5rem 0;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #0645ad;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #0b0080;
+            text-decoration: underline;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            display: grid;
+            grid-template-columns: 1fr 250px;
+            gap: 2rem;
+        }
+
+        .main-content {
+            background: #fff;
+            padding: 2rem;
+            border: 1px solid #a2a9b1;
+            border-radius: 3px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .article-title {
+            font-size: 2.2rem;
+            font-weight: normal;
+            margin-bottom: 0.5rem;
+            border-bottom: 3px solid #a2a9b1;
+            padding-bottom: 0.5rem;
+        }
+
+        .article-subtitle {
+            font-size: 0.9rem;
+            color: #54595d;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .infobox {
+            float: right;
+            width: 300px;
+            margin: 0 0 1rem 1rem;
+            background: #f8f9fa;
+            border: 1px solid #a2a9b1;
+            border-radius: 3px;
+            font-size: 0.9rem;
+        }
+
+        .infobox-title {
+            background: #eaecf0;
+            padding: 0.5rem;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 1px solid #a2a9b1;
+        }
+
+        .infobox-content {
+            padding: 0.5rem;
+        }
+
+        .infobox-row {
+            display: flex;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid #eaecf0;
+            padding-bottom: 0.5rem;
+        }
+
+        .infobox-label {
+            font-weight: bold;
+            width: 100px;
+            flex-shrink: 0;
+        }
+
+        .infobox-value {
+            flex: 1;
+        }
+
+        .article-content {
+            text-align: justify;
+            clear: both;
+        }
+
+        .article-content h2 {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem 0;
+            border-bottom: 1px solid #a2a9b1;
+            padding-bottom: 0.5rem;
+        }
+
+        .article-content h3 {
+            font-size: 1.2rem;
+            margin: 1.5rem 0 0.8rem 0;
+        }
+
+        .article-content p {
+            margin-bottom: 1rem;
+        }
+
+        .article-content a {
+            color: #0645ad;
+            text-decoration: none;
+        }
+
+        .article-content a:hover {
+            text-decoration: underline;
+        }
+
+        .article-content a:visited {
+            color: #0b0080;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: #fff;
+            border: 1px solid #a2a9b1;
+            border-radius: 3px;
+            padding: 1rem;
+            height: fit-content;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .sidebar h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #222;
+            border-bottom: 1px solid #a2a9b1;
+            padding-bottom: 0.5rem;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar a {
+            color: #0645ad;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .sidebar a:hover {
+            color: #0b0080;
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        .footer {
+            background: #eaecf0;
+            border-top: 1px solid #a2a9b1;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: #54595d;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #0645ad;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .infobox {
+                float: none;
+                width: 100%;
+                margin: 0 0 1rem 0;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .search-box {
+                min-width: 250px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+        }
+
+        /* Smooth animations */
+        .main-content, .sidebar {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">📚 Encyclopedia</a>
+            <div class="search-box">
+                <input type="text" placeholder="Search articles..." id="searchInput">
+                <button class="search-btn" onclick="performSearch()">Search</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-content">
+            <ul class="nav-links">
+                <li><a href="#" onclick="showArticle('main')">Main Page</a></li>
+                <li><a href="#" onclick="showArticle('science')">Science</a></li>
+                <li><a href="#" onclick="showArticle('history')">History</a></li>
+                <li><a href="#" onclick="showArticle('technology')">Technology</a></li>
+                <li><a href="#" onclick="showArticle('arts')">Arts</a></li>
+                <li><a href="#" onclick="showArticle('random')">Random Article</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <h1 class="article-title">Welcome to Encyclopedia</h1>
+            <p class="article-subtitle">The free knowledge base that anyone can edit</p>
+            
+            <div class="infobox">
+                <div class="infobox-title">Encyclopedia Stats</div>
+                <div class="infobox-content">
+                    <div class="infobox-row">
+                        <div class="infobox-label">Articles:</div>
+                        <div class="infobox-value">1,247,892</div>
+                    </div>
+                    <div class="infobox-row">
+                        <div class="infobox-label">Active Users:</div>
+                        <div class="infobox-value">45,234</div>
+                    </div>
+                    <div class="infobox-row">
+                        <div class="infobox-label">Edits:</div>
+                        <div class="infobox-value">8,934,512</div>
+                    </div>
+                    <div class="infobox-row">
+                        <div class="infobox-label">Languages:</div>
+                        <div class="infobox-value">47</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="article-content">
+                <p><strong>Encyclopedia</strong> is a free, collaborative online encyclopedia that aims to provide comprehensive and neutral information on a vast range of topics. Founded on the principles of open knowledge sharing, it serves as a comprehensive reference work built through the collective efforts of volunteers worldwide.</p>
+
+                <h2>Featured Article</h2>
+                <p>The <a href="#" onclick="showArticle('quantum')">Quantum Computer</a> represents one of the most significant technological advances in computing. Unlike classical computers that use bits, quantum computers use quantum bits or qubits, which can exist in multiple states simultaneously through a phenomenon called superposition.</p>
+
+                <h2>Did You Know?</h2>
+                <ul>
+                    <li>The human brain contains approximately <a href="#" onclick="showArticle('brain')">86 billion neurons</a>?</li>
+                    <li>Honey never spoils and can remain edible for <a href="#" onclick="showArticle('honey')">thousands of years</a>?</li>
+                    <li>A group of flamingos is called a <a href="#" onclick="showArticle('flamingo')">"flamboyance"</a>?</li>
+                    <li>The shortest war in history lasted only <a href="#" onclick="showArticle('war')">38-45 minutes</a>?</li>
+                </ul>
+
+                <h2>Today's Featured Picture</h2>
+                <p>Today we feature the breathtaking <em>Aurora Borealis</em>, also known as the Northern Lights. This natural light display occurs in polar regions and is caused by the interaction between the solar wind and Earth's magnetosphere.</p>
+
+                <h2>In the News</h2>
+                <p>Stay updated with the latest developments in science, technology, and world events. Our news section covers breakthrough discoveries, historical anniversaries, and significant global happenings.</p>
+            </div>
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3>Navigation</h3>
+            <ul>
+                <li><a href="#" onclick="showArticle('main')">Main Page</a></li>
+                <li><a href="#" onclick="showArticle('contents')">Contents</a></li>
+                <li><a href="#" onclick="showArticle('featured')">Featured Content</a></li>
+                <li><a href="#" onclick="showArticle('events')">Current Events</a></li>
+                <li><a href="#" onclick="showArticle('random')">Random Article</a></li>
+            </ul>
+
+            <h3>Interaction</h3>
+            <ul>
+                <li><a href="#" onclick="showArticle('help')">Help</a></li>
+                <li><a href="#" onclick="showArticle('community')">Community Portal</a></li>
+                <li><a href="#" onclick="showArticle('recent')">Recent Changes</a></li>
+                <li><a href="#" onclick="showArticle('contact')">Contact Page</a></li>
+            </ul>
+
+            <h3>Tools</h3>
+            <ul>
+                <li><a href="#" onclick="showArticle('special')">Special Pages</a></li>
+                <li><a href="#" onclick="showArticle('upload')">Upload File</a></li>
+                <li><a href="#" onclick="showArticle('stats')">Statistics</a></li>
+            </ul>
+
+            <h3>Popular Categories</h3>
+            <ul>
+                <li><a href="#" onclick="showArticle('science')">Science</a></li>
+                <li><a href="#" onclick="showArticle('history')">History</a></li>
+                <li><a href="#" onclick="showArticle('geography')">Geography</a></li>
+                <li><a href="#" onclick="showArticle('biography')">Biography</a></li>
+                <li><a href="#" onclick="showArticle('technology')">Technology</a></li>
+            </ul>
+        </aside>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#" onclick="showArticle('about')">About Encyclopedia</a>
+                <a href="#" onclick="showArticle('disclaimer')">Disclaimers</a>
+                <a href="#" onclick="showArticle('contact')">Contact Us</a>
+                <a href="#" onclick="showArticle('privacy')">Privacy Policy</a>
+                <a href="#" onclick="showArticle('terms')">Terms of Use</a>
+            </div>
+            <p>&copy; 2025 Encyclopedia. Content is available under Creative Commons unless otherwise noted.</p>
+            <p>Encyclopedia® is a registered trademark of the Encyclopedia Foundation, Inc., a non-profit organization.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Article data
+        const articles = {
+            main: {
+                title: "Welcome to Encyclopedia",
+                subtitle: "The free knowledge base that anyone can edit",
+                content: `
+                    <div class="infobox">
+                        <div class="infobox-title">Encyclopedia Stats</div>
+                        <div class="infobox-content">
+                            <div class="infobox-row">
+                                <div class="infobox-label">Articles:</div>
+                                <div class="infobox-value">1,247,892</div>
+                            </div>
+                            <div class="infobox-row">
+                                <div class="infobox-label">Active Users:</div>
+                                <div class="infobox-value">45,234</div>
+                            </div>
+                            <div class="infobox-row">
+                                <div class="infobox-label">Edits:</div>
+                                <div class="infobox-value">8,934,512</div>
+                            </div>
+                            <div class="infobox-row">
+                                <div class="infobox-label">Languages:</div>
+                                <div class="infobox-value">47</div>
+                            </div>
+                        </div>
+                    </div>
+                    <p><strong>Encyclopedia</strong> is a free, collaborative online encyclopedia that aims to provide comprehensive and neutral information on a vast range of topics.</p>
+                    <h2>Featured Article</h2>
+                    <p>The <a href="#" onclick="showArticle('quantum')">Quantum Computer</a> represents one of the most significant technological advances in computing.</p>
+                    <h2>Did You Know?</h2>
+                    <ul>
+                        <li>The human brain contains approximately <a href="#" onclick="showArticle('brain')">86 billion neurons</a>?</li>
+                        <li>Honey never spoils and can remain edible for <a href="#" onclick="showArticle('honey')">thousands of years</a>?</li>
+                    </ul>
+                `
+            },
+            quantum: {
+                title: "Quantum Computer",
+                subtitle: "From Encyclopedia, the free knowledge base",
+                content: `
+                    <div class="infobox">
+                        <div class="infobox-title">Quantum Computer</div>
+                        <div class="infobox-content">
+                            <div class="infobox-row">
+                                <div class="infobox-label">Type:</div>
+                                <div class="infobox-value">Computing Device</div>
+                            </div>
+                            <div class="infobox-row">
+                                <div class="infobox-label">Invented:</div>
+                                <div class="infobox-value">1980s (concept)</div>
+                            </div>
+                            <div class="infobox-row">
+                                <div class="infobox-label">Key Principle:</div>
+                                <div class="infobox-value">Quantum Mechanics</div>
+                            </div>
+                        </div>
+                    </div>
+                    <p>A <strong>quantum computer</strong> is a type of computation device that uses quantum-mechanical phenomena to process information. Unlike classical computers that use bits as the basic unit of information, quantum computers use quantum bits or <em>qubits</em>.</p>
+                    <h2>How Quantum Computers Work</h2>
+                    <p>Quantum computers leverage the principles of <strong>superposition</strong> and <strong>entanglement</strong> to perform calculations that would be impossible or impractical for classical computers.</p>
+                    <h3>Superposition</h3>
+                    <p>While classical bits can only be in a state of 0 or 1, qubits can exist in a superposition of both states simultaneously, allowing quantum computers to process multiple possibilities at once.</p>
+                    <h3>Entanglement</h3>
+                    <p>Quantum entanglement allows qubits to be correlated with each other, creating complex relationships that enable powerful computational capabilities.</p>
+                    <h2>Applications</h2>
+                    <p>Quantum computers have potential applications in cryptography, drug discovery, financial modeling, and artificial intelligence.</p>
+                `
+            },
+            science: {
+                title: "Science",
+                subtitle: "From Encyclopedia, the free knowledge base",
+                content: `
+                    <p><strong>Science</strong> is a systematic enterprise that builds and organizes knowledge in the form of testable explanations and predictions about the universe.</p>
+                    <h2>Branches of Science</h2>
+                    <h3>Physical Sciences</h3>
+                    <p>Physical sciences study non-living matter and energy, including physics, chemistry, and astronomy.</p>
+                    <h3>Life Sciences</h3>
+         
